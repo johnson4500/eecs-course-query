@@ -6,6 +6,8 @@ target/
 
 src/main/resources/application.properties
 
+.idea
+
 ### STS ###
 .apt_generated
 .classpath
