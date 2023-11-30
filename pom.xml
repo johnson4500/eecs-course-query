@@ -36,6 +36,11 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.33</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<scope>test</scope>
+		</dependency>
     </dependencies>
 
 	<build>
