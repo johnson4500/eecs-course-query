@@ -21,17 +21,27 @@ public class ApiControllers {
 
     @GetMapping(value = "/courses")
     public List<Course> getCourses() {
-        return courseRepo.findAll();
+        return courseRepo.findAllSortedByCode();
     }
 
     @GetMapping(value = "/courses/id/{id}")
-    public Optional<Course> getUsersByID(@PathVariable("id") long id) {
+    public Optional<Course> getCoursesByID(@PathVariable("id") long id) {
         return courseRepo.findById(id);
     }
 
     @GetMapping(value = "/courses/Code/{courseCode}")
-    public List<Course> getUsersByFistName(@PathVariable("courseCode") int courseCode) {
+    public List<Course> getCoursesByCourseCode(@PathVariable("courseCode") int courseCode) {
         return courseRepo.findByCourseCode(courseCode);
+    }
+
+    @GetMapping(value = "/courses/Name/{courseName}")
+    public List<Course> getCoursesByName(@PathVariable("courseName") String courseName) {
+        return courseRepo.findByCourseName(courseName);
+    }
+
+    @GetMapping(value = "/courses/Professor/{professorName}")
+    public List<Course> getCoursesByProfessorName(@PathVariable("professorName") String professorName) {
+        return courseRepo.findByProfessorName(professorName);
     }
 
     @PostMapping(value = "/save")
