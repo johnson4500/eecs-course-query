@@ -1,10 +1,10 @@
-package com.example.john4500.APIProject;
+package com.example.john4500.restAPI;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ProjectApiApplicationTests {
+class RestApiApplicationTests {
 
 	@Test
 	void contextLoads() {

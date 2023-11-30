@@ -1,4 +1,4 @@
-package com.example.john4500.APIProject.models;
+package com.example.john4500.restAPI.models;
 
 import jakarta.persistence.*;
 

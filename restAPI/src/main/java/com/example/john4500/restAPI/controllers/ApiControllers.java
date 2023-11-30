@@ -1,7 +1,7 @@
-package com.example.john4500.APIProject.controllers;
+package com.example.john4500.restAPI.controllers;
 
-import com.example.john4500.APIProject.models.Course;
-import com.example.john4500.APIProject.repo.CourseRepo;
+import com.example.john4500.restAPI.models.Course;
+import com.example.john4500.restAPI.repo.CourseRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,6 +1,6 @@
-package com.example.john4500.APIProject.repo;
+package com.example.john4500.restAPI.repo;
 
-import com.example.john4500.APIProject.models.Course;
+import com.example.john4500.restAPI.models.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
