@@ -12,7 +12,8 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-modal": "^3.16.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
