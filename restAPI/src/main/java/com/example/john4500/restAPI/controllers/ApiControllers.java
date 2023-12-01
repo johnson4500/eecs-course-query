@@ -50,13 +50,52 @@ public class ApiControllers {
         return "Saved course successfully!";
     }
 
-    @PutMapping(value = "update/{id}")
+    @PutMapping(value = "update/id/{id}")
     public String updateCourse(@PathVariable long id, @RequestBody Course course) {
         Course updatedCourse = courseRepo.findById(id).get();
-        updatedCourse.setCourse_name(course.getCourse_name());
-        updatedCourse.setCourse_subject(course.getCourse_subject());
-        updatedCourse.setCourse_code(course.getCourse_code());
-        updatedCourse.setCourse_description(course.getCourse_description());
+        if (course.getCourse_name() != null) {
+            updatedCourse.setCourse_name(course.getCourse_name());
+        }
+        if (course.getCourse_subject() != null) {
+            updatedCourse.setCourse_subject(course.getCourse_subject());
+        }
+        if (course.getCourse_code() > 0) {
+            updatedCourse.setCourse_code(course.getCourse_code());
+        }
+        if (course.getCourse_description() != null) {
+            updatedCourse.setCourse_description(course.getCourse_description());
+        }
+        if (course.getCourse_prof() != null) {
+            updatedCourse.setCourse_prof(course.getCourse_prof());
+        }
+        if (course.getCourse_cat_number() > 0) {
+            updatedCourse.setCourse_cat_number(course.getCourse_cat_number());
+        }
+        courseRepo.save(updatedCourse);
+        return "Updated course successfully!";
+    }
+
+    @PutMapping(value = "update/course_code/{course_code}")
+    public String updateCourseByCourseCode(@PathVariable int course_code, @RequestBody Course course) {
+        Course updatedCourse = courseRepo.findByCourseCode(course_code).get(0);
+        if (course.getCourse_name() != null) {
+            updatedCourse.setCourse_name(course.getCourse_name());
+        }
+        if (course.getCourse_subject() != null) {
+            updatedCourse.setCourse_subject(course.getCourse_subject());
+        }
+        if (course.getCourse_code() > 0) {
+            updatedCourse.setCourse_code(course.getCourse_code());
+        }
+        if (course.getCourse_description() != null) {
+            updatedCourse.setCourse_description(course.getCourse_description());
+        }
+        if (course.getCourse_prof() != null) {
+            updatedCourse.setCourse_prof(course.getCourse_prof());
+        }
+        if (course.getCourse_cat_number() > 0) {
+            updatedCourse.setCourse_cat_number(course.getCourse_cat_number());
+        }
         courseRepo.save(updatedCourse);
         return "Updated course successfully!";
     }

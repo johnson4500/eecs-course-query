@@ -17,7 +17,7 @@ public class Course {
     @Column
     private int course_code;
 
-    @Column
+    @Column(columnDefinition = "LONGTEXT")
     private String course_description;
 
     @Column
