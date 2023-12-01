@@ -1,38 +1,28 @@
 import { React, useEffect, useState } from 'react'
 import './App.css'
 import axios from 'axios'
+import Modal from 'react-modal';
 
 function App() {
-  const [isSearch, setIsSearch] = useState(false)
+  let subtitle;
+  const [modalIsOpen, setIsOpen] = useState(false);
   const [data, setData] = useState([])
-  const [searchInput, setSearchInput] = useState([])
-  const [open, setOpen] = useState(false)
-  const [searchParam, setSearchParam] = useState("Name")
-  const [inputText, setInputText] = useState("")
+  const [searchInput, setSearchInput] = useState()
+  const [filteredData, setFilteredData] = useState([])
+  const [modalCourse, setModalCourse] = useState(0)
 
-  const handleOpen = () => {
-    setOpen(!open);
+  const handleSearch = (e) => {
+    const inputValue = e.target.value
+    setSearchInput(inputValue)
+    setFilteredData(prevData => data.filter(element =>
+      element.course_name.toLowerCase().includes(inputValue.toLowerCase()) || element.course_subject.toLowerCase().includes(inputValue.toLowerCase())
+    ))
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(`http://localhost:8080/users/courses/${searchParam}/${searchInput}`)
-    const fetchData = async() => {
-        await axios.get(`http://localhost:8080/courses/${searchParam}/${searchInput}`).then(result => {
-          console.log(result)
-          setData(result.data)
-          setIsSearch(true)
-          setInputText(searchInput)
-        }).catch(error => {
-          console.log(error)
-        })
-      }
-    fetchData()
-  }
-
-  function dropdownClick(e) {
-    setSearchParam(e)
-    setOpen(!open)
+  const showCourseModal = (e) => {
+    setModalCourse(e.target.closest('tr').id)
+    setIsOpen(true)
+    console.log(e.target.closest('tr').id)
   }
 
   useEffect(() => {
@@ -40,6 +30,7 @@ function App() {
       await axios.get('http://localhost:8080/courses').then(result => {
         console.log(result)
         setData(result.data)
+        setFilteredData(result.data)
       }).catch(error => {
         console.log(error)
       })
@@ -47,74 +38,88 @@ function App() {
   fetchData()
   }, [])
 
+  Modal.setAppElement('#root');
+  
+    function afterOpenModal() {
+      // references are now sync'd and can be accessed.
+      subtitle.style.color = 'black';
+    }
+  
+    function closeModal() {
+      setIsOpen(false);
+    }
+
+    const customStyles = {
+      content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+      },
+    };
+
+
   return (
     <>
-    <div className = "app-container">
-      <div>
+      <div className = "app-container">
         <strong className = "main-info">STEM Course Query</strong>
-      </div>
-      <br></br>
-      <div className="dropdown">
-        <strong>Searching by: &nbsp;</strong>
-        <button className = "button" onClick={handleOpen}>Course {searchParam}</button>
         <br></br>
-        {open ? (
-          <div className = "dropdown-content">
-            <button onClick = {(e) => dropdownClick(e.target.id)} id = "Name" className = "dropdown-buttons button">Course Name</button>
-            <br></br>
-            <button onClick = {(e) => dropdownClick(e.target.id)} id = "Code" className = "dropdown-buttons button">Course Code</button>
-            <br></br>
-            <button onClick = {(e) => dropdownClick(e.target.id)} id = "Professor" className = "dropdown-buttons button">Professor</button>
-          </div>
-        ) : null}
-      </div>
-
-      <form onSubmit={handleSubmit}>
+        <br></br>
+        <div className="dropdown">
+        <strong style = {{fontSize: "2.5vh"}}>Info about your EECS Courses!&nbsp;</strong>
+        </div>
+        <br></br>
         <br></br>
         <input 
-        className = "input-field" 
-        type="text" 
-        id="fname" 
-        name="fname" 
-        style = {{fontWeight: "bold"}} 
-        placeholder='Search...' 
-        onChange = {(e) => setSearchInput(e.target.value)}
-        />
-        <br></br>
-        <br></br>
-        <input style = {{width: "120px", height: "50px"}} className='button' type="submit"></input>
-        {/* <button onClick={buttonClick}>Get!</button> */}
-      </form>
+          className = "input-field" 
+          type="text" 
+          id="fname" 
+          name="fname" 
+          style = {{fontWeight: "bold", fontSize: "1.5vh"}} 
+          placeholder='Search...' 
+          value = {searchInput}
+          onChange = {handleSearch}
+          // {(e) => setSearchInput(e.target.value)}
+          />
       <br></br>
-    </div>
-    {isSearch && data.length > 0 ? (
-      <div style = {{fontSize: "20px"}}>Displaying results for search "{inputText}"</div>
-    ) : null}
-    <br></br>
-    {data.length > 0 ? (
-      <div className='table-container'>
+      <br></br>
+      {filteredData.length > 0 ? (
+        <div>
+          <Modal
+          isOpen={modalIsOpen}
+          onAfterOpen={afterOpenModal}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+          >
+          <h2 ref={(_subtitle) => (subtitle = _subtitle)}>{filteredData[modalCourse].course_description}</h2>
+          <button onClick={closeModal}>close</button>
+          </Modal>
+          <div className='table-container'>
             <table className = "data-table">
               <thead>
                 <tr className = "top-row">
-                    <th className = "top-row">Subject</th>
-                    <th className = "top-row">Course Code</th>
-                    <th className = "top-row">Course Name</th>
+                  <th className = "top-row">Subject</th>
+                  <th className = "top-row">Course Name</th>
                 </tr>
               </thead>
-              {data.map((element, i) => (
-                <tbody>
-                  <tr className = "data-row" key = {"tableRow" + i}>
-                    <td>{element.course_subject}</td>
-                    <td>{element.course_code}</td>
-                    <td>{element.course_name}</td>
-                  </tr>
-                </tbody>
+              <tbody>
+              {filteredData.map((element, index) => (
+                <tr onClick={showCourseModal} className = "data-row" key = {index} id = {index}>
+                  <td className = "left">{element.course_subject}</td>
+                  <td className = "right">{element.course_name}</td>
+                </tr>
               ))}
+              </tbody>
             </table>
           </div>
-    ):(
-      <div>No results found.</div>
-    )}
+        </div>
+      ):(
+        <div>No results found.</div>
+      )}
+      </div>
     </>
   )
 }
