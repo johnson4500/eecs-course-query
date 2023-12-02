@@ -26,6 +26,19 @@ public class Course {
     @Column
     private String course_prof;
 
+    public Course(String course_name, String course_subject, int course_code, String course_description, int course_cat_number, String course_prof) {
+        this.course_name = course_name;
+        this.course_subject = course_subject;
+        this.course_code = course_code;
+        this.course_description = course_description;
+        this.course_cat_number = course_cat_number;
+        this.course_prof = course_prof;
+    }
+
+    public Course() {
+
+    }
+
     public String getCourse_prof() {
         return course_prof;
     }
