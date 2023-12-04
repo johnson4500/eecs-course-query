@@ -100,7 +100,7 @@ public class ApiControllers {
         return "Updated course successfully!";
     }
 
-    @DeleteMapping(value = "/delete/{id}")
+    @DeleteMapping(value = "/delete/id/{id}")
     public String deleteCourse(@PathVariable long id) {
         Course deletedCourse = courseRepo.findById(id).get();
         courseRepo.delete(deletedCourse);
