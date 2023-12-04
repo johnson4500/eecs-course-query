@@ -107,10 +107,10 @@ public class ApiControllers {
         return "Deleted course with ID: " + id;
     }
 
-//    @DeleteMapping(value = "/delete/{id}")
-//    public String deleteCourseByCode(@PathVariable long id) {
-//        Course deletedCourse = courseRepo.findById(id).get();
-//        courseRepo.delete(deletedCourse);
-//        return "Deleted course with ID: " + id;
-//    }
+    @DeleteMapping(value = "/delete/{id}")
+    public String deleteCourseByCode(@PathVariable int id) {
+        Course deletedCourse = courseRepo.findByCourseCode(id).get(0);
+        courseRepo.delete(deletedCourse);
+        return "Deleted course with code: " + id;
+    }
 }
