@@ -1,7 +1,9 @@
 package com.example.john4500.restAPI.controllers;
 
 import com.example.john4500.restAPI.models.Course;
+import com.example.john4500.restAPI.models.CourseSchedule;
 import com.example.john4500.restAPI.repo.CourseRepo;
+import com.example.john4500.restAPI.repo.CourseScheduleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,8 @@ public class ApiControllers {
 
     @Autowired
     private CourseRepo courseRepo;
+    @Autowired
+    private CourseScheduleRepo courseScheduleRepo;
 
     @RequestMapping("/")
     public String getGreeting() {
@@ -22,6 +26,11 @@ public class ApiControllers {
     @GetMapping(value = "/courses")
     public List<Course> getCourses() {
         return courseRepo.findAllSortedByCode();
+    }
+
+    @GetMapping(value = "/courseSchedules")
+    public List<CourseSchedule> getCourseSchedules() {
+        return courseScheduleRepo.findAll();
     }
 
     @GetMapping(value = "/courses/id/{id}")
@@ -42,6 +51,11 @@ public class ApiControllers {
     @GetMapping(value = "/courses/Professor/{professorName}")
     public List<Course> getCoursesByProfessorName(@PathVariable("professorName") String professorName) {
         return courseRepo.findByProfessorName(professorName);
+    }
+
+    @GetMapping(value = "/courseSchedules/{courseCode}")
+    public List<CourseSchedule> getCourseScheduleByCourseCode(@PathVariable("courseCode") int courseCode) {
+        return courseScheduleRepo.findByCourseCode(courseCode);
     }
 
     @PostMapping(value = "/save")
@@ -112,5 +126,11 @@ public class ApiControllers {
         Course deletedCourse = courseRepo.findByCourseCode(course_code).get(0);
         courseRepo.delete(deletedCourse);
         return "Deleted course with code: " + course_code;
+    }
+
+    @PostMapping(value = "/save/courseSchedule")
+    public String saveCourse(@RequestBody CourseSchedule courseSchedule) {
+        courseScheduleRepo.save(courseSchedule);
+        return "Saved course schedule successfully!";
     }
 }
