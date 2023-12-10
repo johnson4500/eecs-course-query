@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface CourseScheduleRepo extends JpaRepository<CourseSchedule, Long> {
-    @Query("SELECT c FROM CourseSchedule c WHERE c.course_code = ?1 order by c.section")
+    @Query("SELECT c FROM CourseSchedule c WHERE c.course_code = ?1 order by c.section, c.class_type DESC")
     List<CourseSchedule> findByCourseCode(int course_code);
 }
