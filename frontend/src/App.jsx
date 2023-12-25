@@ -20,6 +20,7 @@ function App() {
   const [dropdownOptions, setDropDownOptions] = useState([]) 
   const [labDropdownOptions, setLabDropdownOptions] = useState([])
   const nodeRef = useRef(null);
+  
 
 
   // Searching for courses is done on the client side for efficiency.
@@ -92,10 +93,10 @@ function App() {
     // console.log(selectedOption.label)
 
     let elements = []
-    sectionData[selectedOption.label].map((element) => {
-      elements.push({value: element.class_type, label: element.class_type
+    sectionData[selectedOption.label].map((element, index) => {
+      elements.push({value: index, label: element.class_type
       })
-    })
+    }, 0)
     console.log(elements)
     setLabDropdownOptions(elements.slice(1))
   };
@@ -145,7 +146,7 @@ function App() {
               background: "red"
             }}}
             >
-            <ModalContent nodeRef={nodeRef} styleOptions={styleOptions} filteredData={filteredData} modalCourse={modalCourse} dropdownOptions={dropdownOptions} sectionF={sectionF} sectionSelected={sectionSelected} sectionData={sectionData} sectionID={sectionID} labDropdownOptions={labDropdownOptions}  />
+            <ModalContent nodeRef={nodeRef} styleOptions={styleOptions} filteredData={filteredData} modalCourse={modalCourse} dropdownOptions={dropdownOptions} sectionF={sectionF} sectionSelected={sectionSelected} sectionData={sectionData} sectionID={sectionID} labDropdownOptions={labDropdownOptions} modalIsOpen={modalIsOpen} />
           </Modal>
             ):(null)}
             
